@@ -93,9 +93,9 @@ export function TransactionModal({ isOpen, onClose, accounts, categories, initia
     <Modal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit Transaksi" : "Tambah Transaksi"}>
       <form onSubmit={handleSubmit} className="space-y-3">
         {err && <div className="p-2 text-xs bg-red-50 text-red-600 rounded-xl">{err}</div>}
-        <div className="grid grid-cols-3 gap-1 bg-gray-100 p-1 rounded-xl">
+        <div className="grid grid-cols-3 gap-1 bg-gray-100 dark:bg-slate-800 p-1 rounded-xl">
           {(["expense", "income", "transfer"] as const).map((t) => (
-            <button key={t} type="button" onClick={() => setType(t)} className={`py-1.5 text-xs font-semibold rounded-lg ${type === t ? "bg-white shadow" : "text-gray-500"}`}>
+            <button key={t} type="button" onClick={() => setType(t)} className={`py-1.5 text-xs font-semibold rounded-lg ${type === t ? "bg-white dark:bg-slate-700 shadow text-gray-900 dark:text-slate-100" : "text-gray-500 dark:text-slate-400"}`}>
               {t === "expense" ? "Pengeluaran" : t === "income" ? "Pemasukan" : "Transfer"}
             </button>
           ))}
@@ -104,23 +104,23 @@ export function TransactionModal({ isOpen, onClose, accounts, categories, initia
         <Input label="Nama Transaksi" placeholder="Makan Siang / Gaji" value={name} onChange={(e) => setName(e.target.value)} required />
         {type !== "transfer" && (
           <div>
-            <label className="text-xs font-semibold text-gray-700">Kategori</label>
-            <select value={catId} onChange={(e) => setCatId(e.target.value)} className="w-full mt-1 border rounded-xl p-2 text-sm bg-white">
+            <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">Kategori</label>
+            <select value={catId} onChange={(e) => setCatId(e.target.value)} className="w-full mt-1 border border-gray-200 dark:border-slate-700 rounded-xl p-2 text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
               {cats.map((c) => (<option key={c.id} value={c.id}>{c.name}</option>))}
             </select>
           </div>
         )}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs font-semibold text-gray-700">{type === "transfer" ? "Dari Akun" : "Akun"}</label>
-            <select value={accId} onChange={(e) => setAccId(e.target.value)} className="w-full mt-1 border rounded-xl p-2 text-sm bg-white">
+            <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">{type === "transfer" ? "Dari Akun" : "Akun"}</label>
+            <select value={accId} onChange={(e) => setAccId(e.target.value)} className="w-full mt-1 border border-gray-200 dark:border-slate-700 rounded-xl p-2 text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
               {accounts.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
             </select>
           </div>
           {type === "transfer" && (
             <div>
-              <label className="text-xs font-semibold text-gray-700">Ke Akun</label>
-              <select value={destId} onChange={(e) => setDestId(e.target.value)} className="w-full mt-1 border rounded-xl p-2 text-sm bg-white">
+              <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">Ke Akun</label>
+              <select value={destId} onChange={(e) => setDestId(e.target.value)} className="w-full mt-1 border border-gray-200 dark:border-slate-700 rounded-xl p-2 text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
                 {accounts.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
               </select>
             </div>
@@ -128,10 +128,10 @@ export function TransactionModal({ isOpen, onClose, accounts, categories, initia
         </div>
         <Input label="Tanggal" type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
         <div>
-          <label className="text-xs font-semibold text-gray-700">Catatan</label>
-          <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Catatan singkat..." className="w-full mt-1 border rounded-xl p-2 text-sm" />
+          <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">Catatan</label>
+          <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Catatan singkat..." className="w-full mt-1 border border-gray-200 dark:border-slate-700 rounded-xl p-2 text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100" />
         </div>
-        <div className="flex justify-end gap-2 pt-2 border-t">
+        <div className="flex justify-end gap-2 pt-2 border-t border-gray-100 dark:border-slate-800">
           <Button type="button" variant="outline" onClick={onClose}>Batal</Button>
           <Button type="submit" variant="primary" isLoading={loading}>Simpan</Button>
         </div>

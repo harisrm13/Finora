@@ -9,8 +9,8 @@ export function Card({ className, children, hoverable = false, ...props }: CardP
   return (
     <div
       className={cn(
-        "rounded-2xl border border-gray-200/80 bg-white p-5 shadow-sm transition-all duration-200",
-        hoverable && "hover:shadow-md hover:border-gray-300",
+        "rounded-2xl border border-gray-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 p-5 shadow-sm transition-all duration-200",
+        hoverable && "hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700",
         className
       )}
       {...props}
@@ -30,7 +30,7 @@ export function CardHeader({ className, children, ...props }: React.HTMLAttribut
 
 export function CardTitle({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={cn("text-base font-semibold text-gray-900 tracking-tight", className)} {...props}>
+    <h3 className={cn("text-base font-semibold text-gray-900 dark:text-slate-100 tracking-tight", className)} {...props}>
       {children}
     </h3>
   );
@@ -38,7 +38,7 @@ export function CardTitle({ className, children, ...props }: React.HTMLAttribute
 
 export function CardDescription({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p className={cn("text-xs text-gray-500", className)} {...props}>
+    <p className={cn("text-xs text-gray-500 dark:text-slate-400", className)} {...props}>
       {children}
     </p>
   );

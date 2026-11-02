@@ -32,22 +32,22 @@ export function CashFlowChart({ data, period, onPeriodChange }: Props) {
     <div className="w-full">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className="text-base font-semibold text-gray-900 tracking-tight">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-slate-100 tracking-tight">
             Arus Kas Keuangan
           </h3>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-slate-400">
             Perbandingan pemasukan dan pengeluaran aktual
           </p>
         </div>
-        <div className="flex rounded-xl bg-gray-100 p-1">
+        <div className="flex rounded-xl bg-gray-100 dark:bg-slate-800 p-1">
           {periods.map((p) => (
             <button
               key={p.key}
               onClick={() => onPeriodChange(p.key)}
               className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 period === p.key
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500 hover:text-gray-800"
+                  ? "bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 shadow-sm"
+                  : "text-gray-500 dark:text-slate-400 hover:text-gray-800 dark:hover:text-slate-200"
               }`}
             >
               {p.label}
@@ -88,11 +88,11 @@ export function CashFlowChart({ data, period, onPeriodChange }: Props) {
                     const inc = payload.find((p) => p.dataKey === "income")?.value as number || 0;
                     const exp = payload.find((p) => p.dataKey === "expense")?.value as number || 0;
                     return (
-                      <div className="rounded-xl border border-gray-100 bg-white p-3 shadow-lg text-xs space-y-1">
-                        <p className="font-bold text-gray-800">{label}</p>
-                        <p className="text-emerald-600 font-semibold">Pemasukan: {formatRupiah(inc)}</p>
-                        <p className="text-red-600 font-semibold">Pengeluaran: {formatRupiah(exp)}</p>
-                        <p className="text-gray-600 pt-1 border-t text-[11px]">Selisih: {formatRupiah(inc - exp)}</p>
+                      <div className="rounded-xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-lg text-xs space-y-1">
+                        <p className="font-bold text-gray-800 dark:text-slate-100">{label}</p>
+                        <p className="text-emerald-600 dark:text-emerald-400 font-semibold">Pemasukan: {formatRupiah(inc)}</p>
+                        <p className="text-red-600 dark:text-red-400 font-semibold">Pengeluaran: {formatRupiah(exp)}</p>
+                        <p className="text-gray-600 dark:text-slate-400 pt-1 border-t dark:border-slate-700 text-[11px]">Selisih: {formatRupiah(inc - exp)}</p>
                       </div>
                     );
                   }

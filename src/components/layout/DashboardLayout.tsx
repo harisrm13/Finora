@@ -61,17 +61,17 @@ export function DashboardLayout({ children, title }: DashboardLayoutProps) {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-[#F7F8FA]">
+      <div className="flex h-screen w-full items-center justify-center bg-[#F7F8FA] dark:bg-[#0B1120]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#2563EB] border-t-transparent" />
-          <p className="text-sm font-medium text-gray-500">Memuat Finora...</p>
+          <p className="text-sm font-medium text-gray-500 dark:text-slate-400">Memuat Finora...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-[#F7F8FA]">
+    <div className="flex min-h-screen bg-[#F7F8FA] dark:bg-[#0B1120] text-[#111827] dark:text-[#F8FAFC] transition-colors">
       {/* Desktop Sidebar */}
       <Sidebar user={user} onLogout={handleLogout} />
 

@@ -112,38 +112,38 @@ export default function TransactionsPage() {
               placeholder="Cari transaksi atau catatan..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 pl-9 pr-3 py-2 text-xs text-gray-900"
+              className="w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 pl-9 pr-3 py-2 text-xs"
             />
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 dark:text-slate-500" />
           </div>
 
-          <select value={type} onChange={(e) => { setType(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 p-2 text-xs bg-white">
+          <select value={type} onChange={(e) => { setType(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 dark:border-slate-700 p-2 text-xs bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
             <option value="">Semua Jenis</option>
             <option value="expense">Pengeluaran</option>
             <option value="income">Pemasukan</option>
             <option value="transfer">Transfer</option>
           </select>
 
-          <select value={categoryId} onChange={(e) => { setCategoryId(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 p-2 text-xs bg-white">
+          <select value={categoryId} onChange={(e) => { setCategoryId(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 dark:border-slate-700 p-2 text-xs bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
             <option value="">Semua Kategori</option>
             {categories.map((c) => (<option key={c.id} value={c.id}>{c.name}</option>))}
           </select>
 
-          <select value={accountId} onChange={(e) => { setAccountId(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 p-2 text-xs bg-white">
+          <select value={accountId} onChange={(e) => { setAccountId(e.target.value); setPage(1); }} className="rounded-xl border border-gray-200 dark:border-slate-700 p-2 text-xs bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100">
             <option value="">Semua Akun</option>
             {accounts.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
           </select>
 
           <div className="flex gap-1.5">
-            <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); setPage(1); }} className="w-1/2 rounded-xl border border-gray-200 p-2 text-[11px] bg-white" title="Dari Tanggal" />
-            <input type="date" value={endDate} onChange={(e) => { setEndDate(e.target.value); setPage(1); }} className="w-1/2 rounded-xl border border-gray-200 p-2 text-[11px] bg-white" title="Sampai Tanggal" />
+            <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); setPage(1); }} className="w-1/2 rounded-xl border border-gray-200 dark:border-slate-700 p-2 text-[11px] bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100" title="Dari Tanggal" />
+            <input type="date" value={endDate} onChange={(e) => { setEndDate(e.target.value); setPage(1); }} className="w-1/2 rounded-xl border border-gray-200 dark:border-slate-700 p-2 text-[11px] bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-100" title="Sampai Tanggal" />
           </div>
         </form>
       </Card>
       <Card className="p-0 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-gray-50 border-b border-gray-100 text-gray-500 font-semibold uppercase tracking-wider">
+            <thead className="bg-gray-50 dark:bg-slate-800/80 border-b border-gray-100 dark:border-slate-800 text-gray-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
               <tr>
                 <th className="p-4">Tanggal</th>
                 <th className="p-4">Nama Transaksi</th>
@@ -153,18 +153,18 @@ export default function TransactionsPage() {
                 <th className="p-4 text-center">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
               {loading ? (
-                <tr><td colSpan={6} className="py-12 text-center text-gray-400">Memuat data transaksi...</td></tr>
+                <tr><td colSpan={6} className="py-12 text-center text-gray-400 dark:text-slate-500">Memuat data transaksi...</td></tr>
               ) : transactions.length === 0 ? (
-                <tr><td colSpan={6} className="py-12 text-center text-gray-400">Tidak ada transaksi yang cocok.</td></tr>
+                <tr><td colSpan={6} className="py-12 text-center text-gray-400 dark:text-slate-500">Tidak ada transaksi yang cocok.</td></tr>
               ) : (
                 transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-gray-50/70 transition">
-                    <td className="p-4 text-gray-500 whitespace-nowrap">{formatDate(tx.date)}</td>
-                    <td className="p-4 font-semibold text-gray-900">
+                  <tr key={tx.id} className="hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition">
+                    <td className="p-4 text-gray-500 dark:text-slate-400 whitespace-nowrap">{formatDate(tx.date)}</td>
+                    <td className="p-4 font-semibold text-gray-900 dark:text-slate-100">
                       <div>{tx.name}</div>
-                      {tx.notes && <div className="text-[11px] text-gray-400 font-normal">{tx.notes}</div>}
+                      {tx.notes && <div className="text-[11px] text-gray-400 dark:text-slate-500 font-normal">{tx.notes}</div>}
                     </td>
                     <td className="p-4">
                       {tx.type === "transfer" ? (
@@ -175,19 +175,19 @@ export default function TransactionsPage() {
                         </Badge>
                       )}
                     </td>
-                    <td className="p-4 text-gray-600">
+                    <td className="p-4 text-gray-600 dark:text-slate-300">
                       {tx.type === "transfer" ? (
                         <div className="flex items-center gap-1.5 font-medium">
                           <span>{tx.account_name}</span>
-                          <span className="text-gray-400">➔</span>
-                          <span className="text-blue-600">{tx.destination_account_name}</span>
+                          <span className="text-gray-400 dark:text-slate-500">➔</span>
+                          <span className="text-blue-600 dark:text-blue-400">{tx.destination_account_name}</span>
                         </div>
                       ) : (
                         tx.account_name
                       )}
                     </td>
                     <td className={`p-4 text-right font-bold text-sm ${
-                      tx.type === "income" ? "text-[#16A34A]" : tx.type === "expense" ? "text-[#DC2626]" : "text-[#2563EB]"
+                      tx.type === "income" ? "text-[#16A34A] dark:text-emerald-400" : tx.type === "expense" ? "text-[#DC2626] dark:text-red-400" : "text-[#2563EB] dark:text-blue-400"
                     }`}>
                       {tx.type === "income" ? "+" : tx.type === "expense" ? "-" : ""}{formatRupiah(tx.amount)}
                     </td>
@@ -195,14 +195,14 @@ export default function TransactionsPage() {
                       <div className="inline-flex items-center gap-1">
                         <button
                           onClick={() => { setEditingTx(tx); setModalOpen(true); }}
-                          className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition"
+                          className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-slate-200 transition"
                           title="Edit"
                         >
                           <Edit2 className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(tx.id)}
-                          className="rounded-lg p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-600 transition"
+                          className="rounded-lg p-1.5 text-gray-400 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 transition"
                           title="Hapus"
                         >
                           <Trash2 className="h-4 w-4" />

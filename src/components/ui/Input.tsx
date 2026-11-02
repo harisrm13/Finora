@@ -16,13 +16,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-gray-700">
+          <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-slate-300">
             {label}
           </label>
         )}
         <div className="relative rounded-xl shadow-sm">
           {leftIcon && (
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400 dark:text-slate-500">
               {leftIcon}
             </div>
           )}
@@ -30,10 +30,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             className={cn(
-              "block w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder:text-gray-400",
+              "block w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500",
               "transition-colors duration-150 ease-in-out",
               "focus:border-[#2563EB] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20",
-              "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
+              "disabled:bg-gray-50 dark:disabled:bg-slate-900 disabled:text-gray-500 dark:disabled:text-slate-600 disabled:cursor-not-allowed",
               leftIcon && "pl-10",
               rightIcon && "pr-10",
               error && "border-red-400 focus:border-red-500 focus:ring-red-500/20",
@@ -42,13 +42,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-slate-500">
               {rightIcon}
             </div>
           )}
         </div>
         {error && <p className="text-xs text-red-600 font-medium">{error}</p>}
-        {helperText && !error && <p className="text-xs text-gray-500">{helperText}</p>}
+        {helperText && !error && <p className="text-xs text-gray-500 dark:text-slate-400">{helperText}</p>}
       </div>
     );
   }

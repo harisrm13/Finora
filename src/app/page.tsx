@@ -96,11 +96,11 @@ export default function DashboardPage() {
               spending.slice(0, 5).map((cat) => (
                 <div key={cat.categoryId} className="space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="font-semibold text-gray-800">{cat.categoryName}</span>
-                    <span className="font-bold text-gray-900">{formatRupiah(cat.totalAmount)}</span>
+                    <span className="font-semibold text-gray-800 dark:text-slate-200">{cat.categoryName}</span>
+                    <span className="font-bold text-gray-900 dark:text-slate-100">{formatRupiah(cat.totalAmount)}</span>
                   </div>
                   <ProgressBar value={cat.percentage} max={100} color="primary" height="sm" />
-                  <div className="flex justify-between text-[10px] text-gray-400">
+                  <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-500">
                     <span>{cat.count} transaksi</span>
                     <span>{cat.percentage}%</span>
                   </div>
@@ -120,18 +120,18 @@ export default function DashboardPage() {
           <div className="space-y-3">
             {budgets.length === 0 ? (
               <div className="py-6 text-center">
-                <p className="text-xs text-gray-400 mb-2">Belum ada anggaran.</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500 mb-2">Belum ada anggaran.</p>
                 <Link href="/budgets"><Button size="sm" variant="outline">Buat Anggaran</Button></Link>
               </div>
             ) : (
               budgets.slice(0, 4).map((b) => (
-                <div key={b.id} className="space-y-1 rounded-xl bg-gray-50/80 p-2.5">
+                <div key={b.id} className="space-y-1 rounded-xl bg-gray-50/80 dark:bg-slate-800/80 p-2.5">
                   <div className="flex justify-between text-xs">
-                    <span className="font-semibold text-gray-800">{b.category_name}</span>
+                    <span className="font-semibold text-gray-800 dark:text-slate-200">{b.category_name}</span>
                     <span className={`text-[11px] font-bold ${(b.percentage || 0) > 90 ? "text-red-600" : "text-emerald-600"}`}>{b.percentage}%</span>
                   </div>
                   <ProgressBar value={b.percentage || 0} max={100} color="auto" height="sm" />
-                  <div className="flex justify-between text-[10px] text-gray-500 pt-0.5">
+                  <div className="flex justify-between text-[10px] text-gray-500 dark:text-slate-400 pt-0.5">
                     <span>Terpakai: {formatRupiah(b.spent)}</span>
                     <span>Batas: {formatRupiah(b.amount)}</span>
                   </div>

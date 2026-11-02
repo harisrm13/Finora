@@ -20,6 +20,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -59,20 +60,23 @@ export function MobileNav({ isOpen, onClose, user, onLogout }: MobileNavProps) {
       />
 
       {/* Drawer */}
-      <div className="relative flex w-72 max-w-[80%] flex-1 flex-col bg-white shadow-2xl">
-        <div className="flex h-16 items-center justify-between border-b border-gray-100 px-5">
+      <div className="relative flex w-72 max-w-[80%] flex-1 flex-col bg-white dark:bg-slate-900 shadow-2xl transition-colors">
+        <div className="flex h-16 items-center justify-between border-b border-gray-100 dark:border-slate-800 px-5">
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2563EB] text-white">
               <TrendingUp className="h-5 w-5" />
             </div>
-            <span className="text-base font-bold text-gray-900">Finora</span>
+            <span className="text-base font-bold text-gray-900 dark:text-slate-100">Finora</span>
           </div>
-          <button
-            onClick={onClose}
-            className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={onClose}
+              className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
@@ -88,10 +92,10 @@ export function MobileNav({ isOpen, onClose, user, onLogout }: MobileNavProps) {
                   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
                   isActive
                     ? "bg-[#2563EB] text-white font-semibold shadow-sm"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    : "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-slate-100"
                 )}
               >
-                <Icon className={cn("h-5 w-5", isActive ? "text-white" : "text-gray-400")} />
+                <Icon className={cn("h-5 w-5", isActive ? "text-white" : "text-gray-400 dark:text-slate-500")} />
                 <span>{item.name}</span>
               </Link>
             );
@@ -99,11 +103,11 @@ export function MobileNav({ isOpen, onClose, user, onLogout }: MobileNavProps) {
         </nav>
 
         {user && (
-          <div className="border-t border-gray-100 p-4">
-            <div className="flex items-center justify-between rounded-xl bg-gray-50 p-2.5">
+          <div className="border-t border-gray-100 dark:border-slate-800 p-4">
+            <div className="flex items-center justify-between rounded-xl bg-gray-50 dark:bg-slate-800/80 p-2.5">
               <div className="truncate">
-                <p className="truncate text-xs font-semibold text-gray-800">{user.full_name}</p>
-                <p className="truncate text-[10px] text-gray-400">{user.email}</p>
+                <p className="truncate text-xs font-semibold text-gray-800 dark:text-slate-200">{user.full_name}</p>
+                <p className="truncate text-[10px] text-gray-400 dark:text-slate-400">{user.email}</p>
               </div>
               {onLogout && (
                 <button
@@ -111,7 +115,7 @@ export function MobileNav({ isOpen, onClose, user, onLogout }: MobileNavProps) {
                     onClose();
                     onLogout();
                   }}
-                  className="rounded-lg p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-600"
+                  className="rounded-lg p-1.5 text-gray-400 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                 >
                   <LogOut className="h-4 w-4" />
                 </button>

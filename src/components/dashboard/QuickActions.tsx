@@ -10,8 +10,8 @@ interface Props {
 
 export function QuickActions({ onAddIncome, onAddExpense }: Props) {
   return (
-    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-200/80 bg-white p-4 shadow-sm">
-      <span className="text-xs font-bold uppercase tracking-wider text-gray-600">Aksi Cepat:</span>
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm transition-colors">
+      <span className="text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-slate-400">Aksi Cepat:</span>
       <div className="flex flex-wrap items-center gap-2">
         <Button size="sm" variant="success" onClick={onAddIncome}>
           <Plus className="h-3.5 w-3.5" />
