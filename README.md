@@ -124,7 +124,7 @@ NODE_ENV=development
 npm run build
 npm start
 ```
-Buka browser di: **`http://localhost:3001`**
+Buka browser di: **`http://localhost:3010`**
 
 #### Mode Pengembangan (Live Reload):
 ```bash
