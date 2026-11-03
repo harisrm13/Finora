@@ -90,7 +90,7 @@
 | :--- | :--- |
 | **Framework** | Next.js 15 (App Router, Server Actions & Route Handlers) |
 | **Bahasa** | TypeScript 5.8 |
-| **Database** | Node.js Native SQLite (`DatabaseSync` di Node.js 26) dengan WAL Mode |
+| **Database** | Supabase Cloud (PostgreSQL) / Node.js SQLite Fallback |
 | **Styling** | Tailwind CSS 3.4 (Design System Fintech Finora) |
 | **Ikonografi** | Lucide React |
 | **Visualisasi Grafik** | Recharts (AreaChart, ResponsiveContainer) |
@@ -110,12 +110,21 @@
 npm install
 ```
 
-### 3. Konfigurasi Environment (`.env.local`)
-File `.env.local` telah disiapkan:
+### 3. Konfigurasi Environment & Supabase Database
+Salin `.env.example` ke `.env.local` atau isi kredensial Supabase Anda:
 ```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 JWT_SECRET=finora-super-secret-jwt-key-2026-production-secure
 NODE_ENV=development
 ```
+
+> **Catatan Penggunaan Supabase**:  
+> 1. Buka dashboard project Anda di [supabase.com](https://supabase.com).  
+> 2. Masuk ke **SQL Editor** lalu buka file `supabase/schema.sql` di project ini, salin seluruh isinya dan klik **Run**.  
+> 3. Salin URL & API Keys dari menu **Project Settings -> API** ke dalam file `.env.local`.  
+> 4. Aplikasi akan otomatis terhubung ke cloud database Supabase!
 
 ### 4. Menjalankan Aplikasi
 
