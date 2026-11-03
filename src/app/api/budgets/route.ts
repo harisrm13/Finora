@@ -11,7 +11,7 @@ export async function GET(req: Request) {
   const month = searchParams.get("month") ? parseInt(searchParams.get("month")!, 10) : now.getMonth() + 1;
   const year = searchParams.get("year") ? parseInt(searchParams.get("year")!, 10) : now.getFullYear();
 
-  const budgets = getBudgets(user.id, month, year);
+  const budgets = await getBudgets(user.id, month, year);
   return NextResponse.json(budgets);
 }
 
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Data anggaran tidak valid." }, { status: 400 });
     }
 
-    const success = setBudget(user.id, {
+    const success = await setBudget(user.id, {
       categoryId: parseInt(categoryId, 10),
       month: parseInt(month, 10),
       year: parseInt(year, 10),
@@ -48,6 +48,6 @@ export async function DELETE(req: Request) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "ID anggaran wajib ada" }, { status: 400 });
 
-  const success = deleteBudget(user.id, parseInt(id, 10));
+  const success = await deleteBudget(user.id, parseInt(id, 10));
   return NextResponse.json({ success });
 }

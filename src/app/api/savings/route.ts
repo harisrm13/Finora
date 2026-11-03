@@ -6,7 +6,7 @@ export async function GET() {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const goals = getSavingsGoals(user.id);
+  const goals = await getSavingsGoals(user.id);
   return NextResponse.json(goals);
 }
 
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Nama dan nominal target tabungan wajib valid." }, { status: 400 });
     }
 
-    const id = createSavingsGoal(user.id, body);
+    const id = await createSavingsGoal(user.id, body);
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

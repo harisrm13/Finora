@@ -81,6 +81,19 @@ export function getDaysInMonth(year: number, month: number): number {
 }
 
 /**
+ * Get date bounds for a month (start date and first day of next month for < comparison)
+ */
+export function getMonthBounds(year: number, month: number): { start: string; nextMonthStart: string } {
+  const start = `${year}-${String(month).padStart(2, "0")}-01`;
+  const nextMonthDate = new Date(year, month, 1);
+  const ny = nextMonthDate.getFullYear();
+  const nm = String(nextMonthDate.getMonth() + 1).padStart(2, "0");
+  const nextMonthStart = `${ny}-${nm}-01`;
+  return { start, nextMonthStart };
+}
+
+
+/**
  * Sanitize cell value for CSV export to prevent formula injection
  * Prepends a single quote if the value begins with =, +, -, @, Tab, or Carriage Return.
  */

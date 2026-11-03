@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   const search = searchParams.get("search") || undefined;
   const sort = (searchParams.get("sort") === "asc" ? "asc" : "desc") as "asc" | "desc";
 
-  const result = getTransactions(user.id, {
+  const result = await getTransactions(user.id, {
     page,
     limit,
     type,
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const result = createTransaction(user.id, body);
+    const result = await createTransaction(user.id, body);
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }

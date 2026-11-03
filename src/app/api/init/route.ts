@@ -8,9 +8,11 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const accounts = getUserAccounts(user.id);
-  const categories = getUserCategories(user.id);
-  const notifications = getUserNotifications(user.id);
+  const [accounts, categories, notifications] = await Promise.all([
+    getUserAccounts(user.id),
+    getUserCategories(user.id),
+    getUserNotifications(user.id),
+  ]);
 
   return NextResponse.json({
     user,

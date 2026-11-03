@@ -6,7 +6,7 @@ export async function GET() {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const plans = getAllowancePlans(user.id);
+  const plans = await getAllowancePlans(user.id);
   return NextResponse.json(plans);
 }
 
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Data rencana uang saku belum lengkap." }, { status: 400 });
     }
 
-    const id = createAllowancePlan(user.id, body);
+    const id = await createAllowancePlan(user.id, body);
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

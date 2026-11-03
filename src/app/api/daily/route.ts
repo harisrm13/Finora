@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date") || undefined;
 
-  const stats = getDailyExpenseStats(user.id, date);
+  const stats = await getDailyExpenseStats(user.id, date);
   return NextResponse.json(stats);
 }
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Nominal batas harian tidak valid." }, { status: 400 });
     }
 
-    const success = updateDailyLimit(user.id, amount, isActive);
+    const success = await updateDailyLimit(user.id, amount, isActive);
     return NextResponse.json({ success });
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

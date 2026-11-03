@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const type = searchParams.get("type") as "income" | "expense" | undefined;
 
-  const categories = getUserCategories(user.id, type);
+  const categories = await getUserCategories(user.id, type);
   return NextResponse.json(categories);
 }
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     if (!body.name || !body.type) {
       return NextResponse.json({ error: "Nama dan tipe kategori wajib diisi." }, { status: 400 });
     }
-    const id = createCategory(user.id, body);
+    const id = await createCategory(user.id, body);
     return NextResponse.json({ success: true, id });
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });

@@ -70,7 +70,7 @@ export async function getCurrentUser(): Promise<User | null> {
     const payload = await verifySessionToken(token);
     if (!payload || !payload.userId) return null;
 
-    return findUserById(payload.userId);
+    return await findUserById(payload.userId);
   } catch {
     return null;
   }

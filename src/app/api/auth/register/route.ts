@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const existing = findUserByEmail(cleanEmail);
+    const existing = await findUserByEmail(cleanEmail);
     if (existing) {
       return NextResponse.json(
         { error: "Email sudah terdaftar. Silakan masuk menggunakan email ini." },
@@ -35,14 +35,14 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hashPassword(password);
-    const userId = createUser({
+    const userId = await createUser({
       email: cleanEmail,
       password_hash: passwordHash,
       full_name: cleanName,
     });
 
     // Seed default categories, accounts, and daily limit for the new user
-    seedUserData(userId);
+    await seedUserData(userId);
 
     const token = await createSessionToken({ userId, email: cleanEmail });
     await setSessionCookie(token);

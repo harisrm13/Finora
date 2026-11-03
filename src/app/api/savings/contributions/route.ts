@@ -13,7 +13,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const goalId = searchParams.get("goalId") ? parseInt(searchParams.get("goalId")!, 10) : undefined;
 
-  const contributions = getSavingsContributions(user.id, goalId);
+  const contributions = await getSavingsContributions(user.id, goalId);
   return NextResponse.json(contributions);
 }
 
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const result = addSavingsContribution(user.id, body);
+    const result = await addSavingsContribution(user.id, body);
     if (!result.success) {
       return NextResponse.json({ error: result.error || "Gagal menambah setoran" }, { status: 400 });
     }
@@ -41,6 +41,6 @@ export async function DELETE(req: Request) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json({ error: "ID setoran wajib ada" }, { status: 400 });
 
-  const success = deleteSavingsContribution(user.id, parseInt(id, 10));
+  const success = await deleteSavingsContribution(user.id, parseInt(id, 10));
   return NextResponse.json({ success });
 }

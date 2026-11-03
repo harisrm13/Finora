@@ -18,23 +18,20 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const period = (searchParams.get("period") || "month") as "7days" | "month" | "3months" | "6months" | "1year";
 
-  const summary = getDashboardSummary(user.id);
-  const cashFlow = getCashFlowChartData(user.id, period);
-  const spendingBreakdown = getSpendingBreakdown(user.id);
-  const { transactions: recentTransactions } = getTransactions(user.id, {
-    page: 1,
-    limit: 5,
-  });
-
-  const now = new Date();
-  const budgets = getBudgets(user.id, now.getMonth() + 1, now.getFullYear());
-  const savingsGoals = getSavingsGoals(user.id);
+  const [summary, cashFlow, spendingBreakdown, txResult, budgets, savingsGoals] = await Promise.all([
+    getDashboardSummary(user.id),
+    getCashFlowChartData(user.id, period),
+    getSpendingBreakdown(user.id),
+    getTransactions(user.id, { page: 1, limit: 5 }),
+    getBudgets(user.id, new Date().getMonth() + 1, new Date().getFullYear()),
+    getSavingsGoals(user.id),
+  ]);
 
   return NextResponse.json({
     summary,
     cashFlow,
     spendingBreakdown,
-    recentTransactions,
+    recentTransactions: txResult.transactions,
     budgets,
     savingsGoals,
   });

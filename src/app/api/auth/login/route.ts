@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = findUserByEmail(cleanEmail);
+    const user = await findUserByEmail(cleanEmail);
     if (!user) {
       return NextResponse.json(
         { error: "Email atau kata sandi tidak cocok." },

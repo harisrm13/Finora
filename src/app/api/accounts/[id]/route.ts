@@ -13,7 +13,7 @@ export async function PUT(req: Request, { params }: Params) {
   const { id } = await params;
   try {
     const body = await req.json();
-    const success = updateAccount(user.id, parseInt(id, 10), body);
+    const success = await updateAccount(user.id, parseInt(id, 10), body);
     return NextResponse.json({ success });
   } catch (err: unknown) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
@@ -25,6 +25,6 @@ export async function DELETE(req: Request, { params }: Params) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const success = deleteAccount(user.id, parseInt(id, 10));
+  const success = await deleteAccount(user.id, parseInt(id, 10));
   return NextResponse.json({ success });
 }

@@ -16,7 +16,7 @@ export async function GET(req: Request) {
   const categoryId = searchParams.get("categoryId") ? parseInt(searchParams.get("categoryId")!, 10) : undefined;
   const accountId = searchParams.get("accountId") ? parseInt(searchParams.get("accountId")!, 10) : undefined;
 
-  const report = getFinancialReport(user.id, {
+  const report = await getFinancialReport(user.id, {
     startDate,
     endDate,
     categoryId,

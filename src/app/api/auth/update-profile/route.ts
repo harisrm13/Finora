@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const { full_name, old_password, new_password } = body;
 
     if (full_name && full_name.trim().length >= 2) {
-      updateUserProfile(user.id, { full_name });
+      await updateUserProfile(user.id, { full_name });
     }
 
     if (new_password) {
@@ -24,13 +24,13 @@ export async function POST(req: Request) {
         );
       }
       // Verify old password
-      const fullUser = findUserById(user.id);
+      const fullUser = await findUserById(user.id);
       if (!fullUser) {
         return NextResponse.json({ error: "User not found" }, { status: 404 });
       }
       // Re-fetch with password_hash
       const { findUserByEmail } = await import("@/lib/db");
-      const userWithHash = findUserByEmail(user.email);
+      const userWithHash = await findUserByEmail(user.email);
       if (!userWithHash) {
         return NextResponse.json({ error: "User not found" }, { status: 404 });
       }
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       }
 
       const newHash = await hashPassword(new_password);
-      updateUserPassword(user.id, newHash);
+      await updateUserPassword(user.id, newHash);
     }
 
     return NextResponse.json({ success: true });

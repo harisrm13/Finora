@@ -11,6 +11,6 @@ export async function POST(req: Request, { params }: Params) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const success = markNotificationAsRead(user.id, parseInt(id, 10));
+  const success = await markNotificationAsRead(user.id, parseInt(id, 10));
   return NextResponse.json({ success });
 }
