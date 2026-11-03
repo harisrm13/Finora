@@ -133,14 +133,15 @@ npm run dev
 
 ---
 
-## 👤 Akun Demo Siap Pakai
+## 👤 Registrasi & Penggunaan Akun
 
-Untuk kemudahan pengujian instan, Finora menyediakan tombol **"Masuk dengan Akun Demo (1-Klik)"** di halaman login, atau gunakan kredensial berikut:
+Finora beroperasi secara mandiri dan aman. Anda dapat langsung mendaftarkan akun pribadi Anda melalui halaman **Daftar Akun** (`http://localhost:3010/register`).
 
-- **Email**: `demo@finora.id`
-- **Kata Sandi**: `password123`
-
-Akun demo telah dilengkapi dengan simulasi transaksi lengkap: gaji bulanan, freelance, top-up e-wallet, belanja harian, rencana uang saku, batas belanja harian, anggaran kategori, serta target tabungan dana darurat & laptop.
+Saat akun baru terdaftar, sistem akan secara otomatis menyiapkan:
+- 4 Akun Keuangan Default (*Dompet Tunai, Rekening Bank BCA, E-Wallet, Tabungan*).
+- Kategori Pemasukan & Pengeluaran Standar.
+- Batas Pengeluaran Harian Default.
+- Data keuangan Anda terisolasi 100% dan terlindungi dengan password hashing `bcryptjs`.
 
 ---
 

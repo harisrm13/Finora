@@ -7,7 +7,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password, full_name } = body;
 
-    if (!email || !email.includes("@")) {
+    const cleanEmail = (email || "").trim().toLowerCase();
+    const cleanName = (full_name || "").trim();
+
+    if (!cleanEmail || !cleanEmail.includes("@")) {
       return NextResponse.json({ error: "Email tidak valid." }, { status: 400 });
     }
     if (!password || password.length < 6) {
@@ -16,37 +19,37 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    if (!full_name || full_name.trim().length < 2) {
+    if (!cleanName || cleanName.length < 2) {
       return NextResponse.json(
         { error: "Nama lengkap wajib diisi minimal 2 karakter." },
         { status: 400 }
       );
     }
 
-    const existing = findUserByEmail(email);
+    const existing = findUserByEmail(cleanEmail);
     if (existing) {
       return NextResponse.json(
-        { error: "Email sudah terdaftar. Silakan login." },
+        { error: "Email sudah terdaftar. Silakan masuk menggunakan email ini." },
         { status: 400 }
       );
     }
 
     const passwordHash = await hashPassword(password);
     const userId = createUser({
-      email,
+      email: cleanEmail,
       password_hash: passwordHash,
-      full_name,
+      full_name: cleanName,
     });
 
-    // Seed default categories, default accounts, and default daily limit
+    // Seed default categories, accounts, and daily limit for the new user
     seedUserData(userId);
 
-    const token = await createSessionToken({ userId, email });
+    const token = await createSessionToken({ userId, email: cleanEmail });
     await setSessionCookie(token);
 
     return NextResponse.json({
       success: true,
-      user: { id: userId, email, full_name },
+      user: { id: userId, email: cleanEmail, full_name: cleanName },
     });
   } catch (err: unknown) {
     return NextResponse.json(
@@ -55,3 +58,4 @@ export async function POST(req: Request) {
     );
   }
 }
+

@@ -2,105 +2,90 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { TrendingUp, Lock, Mail, ArrowRight } from "lucide-react";
+import { TrendingUp, Lock, Mail, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !cleanEmail.includes("@")) {
+      setError("Masukkan alamat email yang valid.");
+      return;
+    }
+
+    if (!password) {
+      setError("Kata sandi wajib diisi.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: cleanEmail, password }),
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Gagal masuk. Periksa email dan kata sandi.");
+        throw new Error(data.error || "Gagal masuk. Periksa kembali email dan kata sandi Anda.");
       }
-      router.push("/");
-      router.refresh();
+
+      setSuccess(true);
+      // Hard redirect to load session cookies fresh into the app
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
     } catch (err: unknown) {
       setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDemoLogin = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      // First try to login demo user; if not exists, register demo user
-      const loginRes = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: "demo@finora.id", password: "password123" }),
-      });
-
-      if (loginRes.ok) {
-        router.push("/");
-        router.refresh();
-        return;
-      }
-
-      // If doesn't exist yet, auto register demo
-      const regRes = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: "demo@finora.id",
-          password: "password123",
-          full_name: "Demo Finora User",
-        }),
-      });
-
-      if (!regRes.ok) {
-        const d = await regRes.json();
-        throw new Error(d.error || "Gagal membuat akun demo");
-      }
-
-      router.push("/");
-      router.refresh();
-    } catch (err: unknown) {
-      setError((err as Error).message);
-    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F7F8FA] px-4 py-12">
+    <div className="relative flex min-h-screen items-center justify-center bg-[#F7F8FA] dark:bg-[#0B1120] px-4 py-12 transition-colors">
+      {/* Top Bar with Dark Mode Toggle */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <ThemeToggle />
+      </div>
+
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="mb-8 text-center">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2563EB] text-white shadow-lg shadow-blue-500/25 mb-4">
             <TrendingUp className="h-6 w-6 stroke-[2.5]" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-100">
             Masuk ke Finora
           </h1>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-gray-500 dark:text-slate-400">
             Take Control of Your Money. Kelola uang saku, anggaran, dan tabungan Anda.
           </p>
         </div>
 
         {/* Card */}
-        <div className="rounded-3xl border border-gray-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="rounded-3xl border border-gray-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
           {error && (
-            <div className="mb-4 rounded-xl bg-red-50 p-3 text-xs text-red-600 border border-red-200">
+            <div className="mb-4 rounded-xl bg-red-50 dark:bg-red-950/40 p-3 text-xs text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900">
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-4 flex items-center gap-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 p-3 text-xs text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900 font-medium">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              <span>Berhasil masuk! Mengalihkan ke dashboard...</span>
             </div>
           )}
 
@@ -113,6 +98,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               leftIcon={<Mail className="h-4 w-4" />}
               required
+              disabled={loading || success}
             />
 
             <Input
@@ -123,6 +109,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               leftIcon={<Lock className="h-4 w-4" />}
               required
+              disabled={loading || success}
             />
 
             <Button
@@ -131,37 +118,18 @@ export default function LoginPage() {
               size="lg"
               className="w-full mt-2"
               isLoading={loading}
+              disabled={loading || success}
             >
-              Masuk Sekarang
-              <ArrowRight className="h-4 w-4 ml-1.5" />
+              {success ? "Mengalihkan..." : "Masuk Sekarang"}
+              {!success && <ArrowRight className="h-4 w-4 ml-1.5" />}
             </Button>
           </form>
 
-          <div className="relative my-6 text-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <span className="relative bg-white px-3 text-xs text-gray-400">
-              Atau coba langsung
-            </span>
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="md"
-            className="w-full border-blue-200 bg-blue-50/50 text-[#2563EB] hover:bg-blue-100/50"
-            onClick={handleDemoLogin}
-            disabled={loading}
-          >
-            Masuk dengan Akun Demo (1-Klik)
-          </Button>
-
-          <p className="mt-6 text-center text-xs text-gray-500">
+          <p className="mt-6 text-center text-xs text-gray-500 dark:text-slate-400">
             Belum punya akun?{" "}
             <Link
               href="/register"
-              className="font-semibold text-[#2563EB] hover:text-[#1D4ED8]"
+              className="font-semibold text-[#2563EB] hover:text-[#1D4ED8] dark:text-blue-400"
             >
               Daftar sekarang
             </Link>
@@ -171,3 +139,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

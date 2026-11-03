@@ -7,14 +7,16 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password } = body;
 
-    if (!email || !password) {
+    const cleanEmail = (email || "").trim().toLowerCase();
+
+    if (!cleanEmail || !password) {
       return NextResponse.json(
         { error: "Email dan kata sandi wajib diisi." },
         { status: 400 }
       );
     }
 
-    const user = findUserByEmail(email);
+    const user = findUserByEmail(cleanEmail);
     if (!user) {
       return NextResponse.json(
         { error: "Email atau kata sandi tidak cocok." },
@@ -49,3 +51,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
